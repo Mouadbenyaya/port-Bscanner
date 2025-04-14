@@ -1,96 +1,84 @@
-# portBscanner
+# 🔎 portBscanner
 
-**portBscanner** est un outil développé en Python par Mouad Benyaya qui permet de scanner les ports d'un hôte spécifié pour déterminer s'ils sont ouverts ou fermés. Ce projet utilise le module `socket` de Python pour les connexions et `ThreadPoolExecutor` pour une exécution parallèle rapide et efficace, tout en offrant des fonctionnalités de scan avancées.
+**portBscanner** est un outil développé en Python par **Mouad Benyaya** qui permet de scanner les ports d’un hôte spécifié pour détecter s’ils sont **ouverts**, **fermés** ou **filtrés**. Il est compatible avec **Windows et Linux**, et utilise des techniques avancées pour l’analyse des ports, tout en offrant une interface simple à utiliser.
 
-**ATTENTION : Cet outil est destiné à des fins éducatives et à des tests de pénétration autorisés UNIQUEMENT. N'utilisez jamais cet outil sur des systèmes ou réseaux sans permission explicite. L'utilisation non autorisée est illégale.**
+⚠️ **ATTENTION : Cet outil est à usage éducatif uniquement. Son utilisation sur des systèmes sans autorisation explicite est illégale.**
 
-## Fonctionnalités principales
+---
 
-* **Types de Scan Multiples :**
-    * Scan **TCP** Connect (standard)
-    * Scan **UDP**
-    * Scan **SYN** ("Stealth Scan" / furtif)
-* **Détection de Services et Vulnérabilités :**
-    * Tente d'identifier les services et leurs versions sur les ports ouverts ("Banner Grabbing").
-    * Effectue une **vérification de vulnérabilités basiques** associées aux services détectés (si implémenté). *(Merci de préciser dans le code ou ici la nature exacte de cette vérification)*.
-* **Scan Approfondi ("Deep Scan") :**
-    * Permet des analyses plus poussées. *(Merci de préciser ici ce que fait le "deep scan" : scan de tous les ports 1-65535 ? combinaison de techniques ? options spécifiques ?)*.
-* **Exécution parallèle :**
-    * Utilise `ThreadPoolExecutor` pour scanner plusieurs ports simultanément, optimisant la vitesse.
-* **Personnalisation :**
-    * Choix de la cible (IP ou nom d'hôte), de la plage de ports, du type de scan, du timeout, du nombre de threads, etc.
-* **Affichage et Export des Résultats :**
-    * Affichage clair des ports ouverts, services, et potentiellement vulnérabilités.
-    * Option pour afficher les ports fermés.
-    * Possibilité d'exporter les résultats (ex: TXT, JSON, CSV - si implémenté). *(Confirmez si l'export est possible et les formats supportés)*.
+## ⚙️ Fonctionnalités principales
 
-## Prérequis
+- 🔀 **Types de Scan disponibles :**
+  - TCP Connect (classique)
+  - UDP Scan
+  - SYN Scan ("furtif")
+- 📡 **Détection de Services :**
+  - Identification des services via "banner grabbing"
+  - Vérification simple de vulnérabilités potentielles *(à définir selon l’implémentation)*
+- 🧐 **Scan Approfondi (Deep Scan) :**
+  - Analyse tous les ports (1-65535) avec différentes méthodes
+- ⚡ **Multithreading :**
+  - Utilise `ThreadPoolExecutor` pour accélérer le scan
+- 🌯️ **Personnalisation complète :**
+  - Cible, plage de ports, méthode de scan, timeout, nombre de threads...
+- 📀 **Résultats clairs et exportables :**
+  - Affichage coloré des ports ouverts/services
+  - Possibilité d’afficher les ports fermés
+  - Export en **TXT**, **JSON** ou **CSV** *(si activé)*
 
-* Python 3 (version 3.6 ou supérieure recommandée)
-* pip (le gestionnaire de paquets Python, généralement inclus avec Python 3)
-* Git (pour cloner le code source)
-* **Privilèges administrateur/root :** Nécessaires pour certains types de scans (ex: SYN scan, scans UDP nécessitant des raw sockets sur certains OS).
+---
 
-## Installation
+## 🧰 Prérequis
 
-1.  **Clonez ce dépôt sur votre machine locale :**
-    ```bash
-    git clone [https://github.com/Mouadbenyaya/port-Bscanner.git](https://github.com/Mouadbenyaya/port-Bscanner.git)
-    ```
+- Python 3.6 ou plus
+- pip
+- Git
+- **Droits administrateur/root** pour certains scans (ex: SYN ou UDP avec raw sockets)
 
-2.  **Naviguez dans le répertoire du projet :**
-    ```bash
-    cd portBscanner
-    ```
+---
 
-3.  **(Recommandé) Créez et activez un environnement virtuel :**
-    ```bash
-    # Créer l'environnement
-    python -m venv venv 
-    # Activer (Linux/macOS)
-    source venv/bin/activate
-    # Activer (Windows CMD)
-    # .\venv\Scripts\activate.bat
-    # Activer (Windows PowerShell)
-    # .\venv\Scripts\Activate.ps1
-    ```
+## 📅 Installation
 
-4.  **Installez les dépendances :**
-    Vérifiez les `import` dans tous les fichiers `.py` de votre projet pour identifier les bibliothèques externes nécessaires (ex: `cryptography`, etc.).
-    * **Méthode 1 (Préférée - si un fichier `requirements.txt` existe) :**
-        ```bash
-        pip install -r requirements.txt
-        ```
-        *(Assurez-vous que ce fichier liste toutes les dépendances externes)*
-    * **Méthode 2 (Manuelle - si pas de `requirements.txt`) :**
-        Installez les bibliothèques nécessaires une par une.
-        ```bash
-        # Exemple (adaptez selon les imports réels dans votre code !) :
-        # pip install cryptography
-        # pip install ... 
-        ```
-        *(Si aucune bibliothèque externe n'est utilisée, vous pouvez l'indiquer ou simplifier cette étape)*.
+```bash
+git clone https://github.com/Mouadbenyaya/port-Bscanner.git
+cd port-Bscanner
+```
 
-## Utilisation
+### (Optionnel) Créer un environnement virtuel :
+```bash
+python -m venv venv
+# Windows :
+.\venv\Scripts\activate
+# Linux/macOS :
+source venv/bin/activate
+```
 
-Lancez le script `main.py` depuis le terminal, en étant dans le dossier `portBscanner`. **N'oubliez pas d'utiliser `sudo` (ou d'exécuter en tant qu'administrateur) si vous effectuez des scans nécessitant des privilèges élevés (comme SYN ou UDP).**
+### Installer les dépendances :
+```bash
+pip install -r requirements.txt
+```
 
-* **Mode Interactif (si supporté sans options) :**
-    Si le script est conçu pour être interactif sans arguments :
-    ```bash
-    # Exécutez avec sudo si des scans privilégiés sont possibles en mode interactif
-    sudo python main.py 
-    ```
-    *Note : Le script peut demander d'accepter les conditions d'utilisation au démarrage.*
+---
 
+## 🚀 Utilisation
 
-## Avertissement Légal / Disclaimer
+### Mode interactif :
 
-Ce projet est destiné uniquement à des fins éducatives et à des tests de pénétration légitimes. **N'utilisez cet outil que sur des réseaux et systèmes pour lesquels vous avez une autorisation explicite.** Scanner des réseaux sans permission est illégal et peut entraîner des poursuites judiciaires.
+```bash
+# Windows
+python main.py
 
-L'auteur de `port-Bscanner` décline toute responsabilité pour les dommages directs ou indirects causés par l'utilisation ou la mauvaise utilisation de ce logiciel. L'utilisateur assume l'entière responsabilité de ses actions et s'engage à utiliser cet outil conformément à toutes les lois applicables.
+# Linux (si besoin de privilèges)
+sudo python3 main.py
+```
 
-## Auteur
+## 🛑 Avertissement Légal
 
-* **Mouad benyaya** - Développeur principal
-    * GitHub : [Mouadbenyaya](https://github.com/Mouadbenyaya)
+Cet outil ne doit être utilisé que **sur des réseaux/systèmes pour lesquels vous avez une autorisation explicite**. Tout usage non autorisé est illégal et l’auteur décline toute responsabilité en cas de mauvaise utilisation.
+
+---
+
+## 👨‍💻 Auteur
+
+- **Mouad Benyaya** – Développeur principal  
+  🔗 GitHub : [Mouadbenyaya](https://github.com/Mouadbenyaya)
